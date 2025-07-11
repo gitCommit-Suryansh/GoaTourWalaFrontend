@@ -100,36 +100,68 @@ const Home = () => {
 
       {/* Main Hero Content */}
       <div className="absolute inset-0 z-20 flex items-center justify-center px-4 text-center">
-        <div className="max-w-3xl mx-auto space-y-8 bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 px-8 py-12 mt-16 md:mt-0 flex flex-col items-center">
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-white drop-shadow-lg">
+        <div
+          className="max-w-3xl mx-auto space-y-8 bg-white/5 backdrop-blur-md rounded-3xl shadow-2xl border border-white/10 px-6 py-10 mt-16 md:mt-0 flex flex-col items-center"
+          style={{
+            background: "rgba(255, 255, 255, 0.05)",
+            backdropFilter: "blur(5px)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          {/* Discount Badge */}
+          <div className="inline-block bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full text-sm font-bold mb-2">
+            Get up to 40% OFF on
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg mb-4">
+            <span
+              className=""
+              style={{ color: "#FFBA0A", fontWeight: "bolder" }}
+            >
+              GOA
+            </span>
+            <span>{" "}</span>
+            {/* <span className="text-white"> Tour Packages!</span> */}
             <ReactTyped
-              strings={[
-                "Welcome to Goa Tour Wala",
-                "Lowest Price Guaranteed",
-                "Book Your Dream Goa Trip",
-              ]}
-              typeSpeed={60}
-              backSpeed={30}
-              loop
-              style={{
-                fontFamily: "Play, Space Grotesk, sans-serif",
-                letterSpacing: "0.03em",
-              }}
+              strings={["Tour Packages..", "Cruise Packages..", "is Callin...!"]}
+              typeSpeed={65}
+              backSpeed={50}
+              loop={true}
+              delay={500}
+              cursorChar="_"
+              cursorBlink={true}
+              onComplete={() => console.log("Typing complete!")}
+              pauseOnHover={true}
+              style={{ color: 'white' }}
             />
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 font-Play mb-4 drop-shadow">
-            Lowest Price Guaranteed
-          </p>
 
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 mt-6 w-full">
-            <button className="w-full md:w-auto bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 hover:from-yellow-500 hover:to-pink-600 text-white font-bold px-8 py-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-300/40 text-lg tracking-wide">
-              Explore Tours
-            </button>
-            <button className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold px-8 py-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400/40 text-lg tracking-wide border-2 border-white/20">
-              Contact Us
+          {/* Pricing Section */}
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <span className="text-white text-lg md:text-xl">Starting at</span>
+            <div className="flex items-center gap-3">
+              <span className="text-3xl md:text-4xl font-bold text-white">
+                INR 5,299
+              </span>
+              <span className="text-lg md:text-xl text-gray-300 line-through">
+                INR 10,598
+              </span>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="mb-6">
+            <button
+              className="bg-[#F37002] text-white font-bold px-7 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300/40 text-lg tracking-wide"
+              style={{ backgroundColor: "#F37002" }}
+            >
+              Connect With An Expert
             </button>
           </div>
 
+          {/* Trust Indicators */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8">
             <div className="flex items-center gap-2">
               <Check className="h-6 w-6 text-green-400" />
