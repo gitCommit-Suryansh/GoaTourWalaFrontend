@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/image.png';
+import logo from '../assets/logo.png';
 import axios from 'axios';
 
 const Header = () => {
@@ -21,7 +21,7 @@ const Header = () => {
         
         {/* Logo */}
         <div onClick={() => window.location.href = '/'}>
-          <img src={logo} alt="GoaTourWala Logo" className="h-14 w-auto cursor-pointer" />
+          <img src={logo} alt="GoaTourWala Logo" className="h-16 w-auto cursor-pointer" />
         </div>
 
         {/* Menu Items */}
