@@ -60,15 +60,14 @@ const Home = () => {
         >
           {/* Animated Plane (Always Rendered While Intro Is On) */}
           <img
-  src={planeImg}
-  alt="Flying Plane"
-  className="absolute top-[30%] w-24 md:w-36 animate-plane z-40"
-  style={{
-    animationDelay: "0.2s",
-    animationDuration: "6s"
-  }}
-/>
-
+            src={planeImg}
+            alt="Flying Plane"
+            className="absolute top-[30%] w-24 md:w-36 animate-plane z-40"
+            style={{
+              animationDelay: "0.2s",
+              animationDuration: "6s",
+            }}
+          />
 
           {/* Intro Text */}
           <h1 className="text-4xl md:text-6xl text-black text-center fade-text z-50">
