@@ -76,59 +76,119 @@ const ExistingSubcategories = () => {
     setSelected({ ...selected, galleryImages: updated });
   };
 
-  const handleUpdate = async () => {
-    setIsUpdating(true);
-    try {
-      const formData = new FormData();
-      formData.append("name", selected.name);
-      formData.append("description", selected.description || "");
-      formData.append("price", selected.price || 0);
-      formData.append("duration", selected.duration || "");
-      formData.append(
-        "features",
-        JSON.stringify(
-          selected.features
-            ? selected.features
-                .split(",")
-                .map((f) => f.trim())
-                .filter(Boolean)
-            : []
-        )
-      );
-      formData.append("details", JSON.stringify(selected.details));
-      formData.append("galleryImages", JSON.stringify(selected.galleryImages));
+  // const handleUpdate = async () => {
+  //   setIsUpdating(true);
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("name", selected.name);
+  //     formData.append("description", selected.description || "");
+  //     formData.append("price", selected.price || 0);
+  //     formData.append("duration", selected.duration || "");
+  //     formData.append(
+  //       "features",
+  //       JSON.stringify(
+  //         selected.features
+  //           ? selected.features
+  //               .split(",")
+  //               .map((f) => f.trim())
+  //               .filter(Boolean)
+  //           : []
+  //       )
+  //     );
+  //     formData.append("details", JSON.stringify(selected.details));
+  //     formData.append("galleryImages", JSON.stringify(selected.galleryImages));
 
-      if (newBannerImage) {
-        formData.append("bannerImage", newBannerImage);
-      }
-      newGalleryImages.forEach((img) => {
-        formData.append("newGalleryImages", img);
-      });
+  //     if (newBannerImage) {
+  //       formData.append("bannerImage", newBannerImage);
+  //     }
+  //     newGalleryImages.forEach((img) => {
+  //       formData.append("newGalleryImages", img);
+  //     });
 
-      const res = await axios.put(
-        `${REACT_APP_BACKEND_URL}/api/subcategories/update/${selected._id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+  //     const res = await axios.put(
+  //       `${REACT_APP_BACKEND_URL}/api/subcategories/update/${selected._id}`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
 
-      setMessage(res.data.message || "Subcategory updated successfully!");
-      setShowModal(false);
-      fetchSubcategories();
-      setTimeout(() => setMessage(""), 3000);
-    } catch (err) {
-      console.error("Update failed:", err);
-      setMessage(
-        err.response?.data?.error || "Update failed. Please try again."
-      );
-      setTimeout(() => setMessage(""), 3000);
-    } finally {
-      setIsUpdating(false);
+  //     setMessage(res.data.message || "Subcategory updated successfully!");
+  //     setShowModal(false);
+  //     fetchSubcategories();
+  //     setTimeout(() => setMessage(""), 3000);
+  //   } catch (err) {
+  //     console.error("Update failed:", err);
+  //     setMessage(
+  //       err.response?.data?.error || "Update failed. Please try again."
+  //     );
+  //     setTimeout(() => setMessage(""), 3000);
+  //   } finally {
+  //     setIsUpdating(false);
+  //   }
+  // };
+
+ // ======= ✅ FRONTEND FINAL VERSION (React) =======
+
+const handleUpdate = async () => {
+  setIsUpdating(true);
+  try {
+    const formData = new FormData();
+
+    formData.append("name", selected.name);
+    formData.append("description", selected.description || "");
+    formData.append("price", selected.price || 0);
+    formData.append("duration", selected.duration || "");
+
+    formData.append(
+      "features",
+      JSON.stringify(
+        selected.features
+          ? selected.features.split(",").map((f) => f.trim()).filter(Boolean)
+          : []
+      )
+    );
+
+    formData.append("details", JSON.stringify(selected.details));
+    formData.append("galleryImages", JSON.stringify(selected.galleryImages)); // existing URLs to retain
+
+    if (newBannerImage instanceof File) {
+      formData.append("bannerImage", newBannerImage);
     }
-  };
+
+    const uniqueGalleryFiles = Array.from(new Set(newGalleryImages));
+    uniqueGalleryFiles.forEach((file) => {
+      if (file instanceof File) {
+        formData.append("newGalleryImages", file);
+      }
+    });
+
+    const res = await axios.put(
+      `${REACT_APP_BACKEND_URL}/api/subcategories/update/${selected._id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    setMessage(res.data.message || "Subcategory updated successfully!");
+    setShowModal(false);
+    fetchSubcategories();
+    setTimeout(() => setMessage(""), 3000);
+  } catch (err) {
+    console.error("Update failed:", err);
+    setMessage(err.response?.data?.error || "Update failed. Please try again.");
+    setTimeout(() => setMessage(""), 3000);
+  } finally {
+    setIsUpdating(false);
+  }
+};
+
+  
 
   if (loading && subcategories.length === 0) {
     return (
