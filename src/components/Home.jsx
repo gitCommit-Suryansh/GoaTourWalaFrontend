@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import adventurevideo from "../assets/adventure.mp4";
 import Header from "./Header";
+
 import {
   Check,
   Clock,
@@ -12,72 +13,88 @@ import {
 } from "lucide-react";
 import { ReactTyped } from "react-typed";
 import planeImg from "../assets/plane.png";
+import { Link } from "react-router-dom";
 
 const slideOptions = ["Wildlife", "Heritage", "Spirituality", "Nature"];
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
-  const [step, setStep] = useState(0); // 0 = "Welcome to", 1 = "Goa Tour Wala"
+  const [step, setStep] = useState(0);
   const [hideIntro, setHideIntro] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // Subcategories state
   const [subcategories, setSubcategories] = useState([]);
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [subcategoryStats, setSubcategoryStats] = useState({});
+  const [categoriesWithSubcategories, setCategoriesWithSubcategories] =
+    useState([]);
+  const [categoryActiveSlide, setCategoryActiveSlide] = useState(0);
+
+  const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
-    const handleLoad = () => {
-      setLoading(false); // page is fully loaded
-    };
-
-    if (document.readyState === "complete") {
-      // Already loaded
-      handleLoad();
-    } else {
+    const handleLoad = () => setLoading(false);
+    if (document.readyState === "complete") handleLoad();
+    else {
       window.addEventListener("load", handleLoad);
       return () => window.removeEventListener("load", handleLoad);
     }
   }, []);
 
-  const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-
-  // Fetch subcategories
   useEffect(() => {
-    const fetchSubcategories = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${REACT_APP_BACKEND_URL}/api/subcategories/all`
+        const res = await fetch(
+          `${REACT_APP_BACKEND_URL}/api/categories/all-with-subcategories`
         );
-        const data = await response.json();
-        if (data.subcategories) {
-          setSubcategories(data.subcategories);
+        const data = await res.json();
+        const flatSubcategories = [];
+        const stats = {};
+        const validCategories = [];
 
-          // Generate random stats once per subcategory
-          const stats = {};
-          data.subcategories.forEach((sub) => {
-            const discount = (Math.floor(Math.random() * 8) + 8) * 100; // 8*100 = 800 to 15*100 = 1500
-            stats[sub._id] = {
-              rating: (Math.random() * (4.8 - 4.1) + 4.1).toFixed(1),
-              reviews: Math.floor(Math.random() * (2400 - 1100 + 1) + 1100),
-              discount, // new field
-            };
-          });
-          setSubcategoryStats(stats);
-        }
-      } catch (error) {
-        console.error("Error fetching subcategories:", error);
+        data.forEach((category) => {
+          // Only include categories that have subcategories
+          if (category.subcategories && category.subcategories.length > 0) {
+            validCategories.push(category);
+
+            category.subcategories.forEach((sub) => {
+              flatSubcategories.push({ ...sub, categorySlug: category.slug });
+              const discount = (Math.floor(Math.random() * 8) + 8) * 100;
+              stats[sub._id] = {
+                rating: (Math.random() * (4.8 - 4.1) + 4.1).toFixed(1),
+                reviews: Math.floor(Math.random() * (2400 - 1100 + 1) + 1100),
+                discount,
+              };
+            });
+          }
+        });
+
+        setSubcategories(flatSubcategories);
+        setSubcategoryStats(stats);
+        setCategoriesWithSubcategories(validCategories);
+      } catch (err) {
+        console.error("Error fetching subcategories:", err);
       } finally {
         setLoadingCategories(false);
       }
     };
 
-    fetchSubcategories();
+    fetchData();
   }, []);
 
-  // Slide auto-switch
+  // Add auto-carousel for categories
+  useEffect(() => {
+    if (categoriesWithSubcategories.length > 0) {
+      const timer = setInterval(() => {
+        setCategoryActiveSlide(
+          (prev) => (prev + 1) % categoriesWithSubcategories.length
+        );
+      }, 5000); // Change slide every 5 seconds
+      return () => clearInterval(timer);
+    }
+  }, [categoriesWithSubcategories]);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % slideOptions.length);
@@ -85,7 +102,6 @@ const Home = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Intro animation control
   useEffect(() => {
     if (!loading) {
       const timers = [
@@ -97,14 +113,9 @@ const Home = () => {
     }
   }, [loading]);
 
-  // Get displayed categories (6 or all)
   const displayedCategories = showAllCategories
     ? subcategories
     : subcategories.slice(0, 6);
-
-  const getRandomRating = () => (Math.random() * (4.8 - 4.1) + 4.1).toFixed(1);
-  const getRandomReviews = () =>
-    Math.floor(Math.random() * (2400 - 1100 + 1) + 1100);
 
   return (
     <div className="relative">
@@ -264,13 +275,6 @@ const Home = () => {
 
       {/* SUBCATEGORIES SECTION */}
       <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
-        {/* Decorative Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-orange-200/30 to-red-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-yellow-200/20 to-orange-200/20 rounded-full blur-3xl"></div>
-        </div>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div
@@ -293,7 +297,6 @@ const Home = () => {
               experiences that will create memories to last a lifetime
             </p>
           </div>
-
           {/* Loading State */}
           {loadingCategories ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -312,14 +315,14 @@ const Home = () => {
             </div>
           ) : (
             <>
-              {/* Categories Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {displayedCategories.map((category) => (
-                  <div
+                  <Link
                     key={category._id}
-                    className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 " style={{scale:0.90}}
+                    to={`/${category.categorySlug}/${category.slug}`}
+                    className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+                    style={{ scale: 0.9 }}
                   >
-                    {/* Image Container */}
                     <div className="relative h-48 overflow-hidden">
                       <img
                         src={
@@ -330,40 +333,20 @@ const Home = () => {
                         alt={category.name}
                         className="w-full h-full object-cover"
                       />
-                      {/* Carousel dots */}
-                      <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-1">
-                        {[...Array(5)].map((_, i) => (
-                          <div
-                            key={i}
-                            className={`w-2 h-2 rounded-full ${
-                              i === 0 ? "bg-white" : "bg-white/50"
-                            }`}
-                          />
-                        ))}
-                      </div>
                     </div>
-
-                    {/* Content */}
                     <div className="p-5">
-                      {/* Duration */}
                       <div className="text-sm text-gray-600 mb-2">
                         {category.duration || "6 days & 5 nights"}
                       </div>
-
-                      {/* Title */}
                       <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
                         {category.name}
                       </h3>
-
-                      {/* Route */}
                       <div className="text-sm text-gray-600 mb-3 flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
                         <span>
                           {category.route || "Srinagar • Pahalgam • Srinagar"}
                         </span>
                       </div>
-
-                      {/* Rating */}
                       <div className="flex items-center gap-2 mb-4">
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 text-yellow-400 fill-current" />
@@ -376,8 +359,6 @@ const Home = () => {
                           reviews)
                         </span>
                       </div>
-
-                      {/* Price */}
                       <div className="mb-4">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-lg text-gray-400 line-through">
@@ -398,35 +379,212 @@ const Home = () => {
                           <span className="text-sm text-gray-600">/Adult</span>
                         </div>
                       </div>
-
-                      {/* Action Buttons */}
                       <div className="flex gap-3">
-                        <button className="flex-1 bg-white border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium hover:bg-orange-50 transition-colors flex items-center justify-center gap-2">
+                        <a
+                          href="tel:+1234567890"
+                          className="flex-1 bg-white border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium hover:bg-orange-50 transition-colors flex items-center justify-center gap-2"
+                        >
                           <Phone className="w-4 h-4" />
-                        </button>
-                        <button className="flex-1 text-white py-2 px-4 rounded-lg font-medium hover:from-orange-600 hover:to-red-600 transition-all duration-200" style={{ backgroundColor: "#F37002" }}>
-                          Request Callback
+                        </a>
+                        <button
+                          className="flex-1 text-white py-2 px-4 rounded-lg font-medium hover:from-orange-600 hover:to-red-600 transition-all duration-200"
+                          style={{ backgroundColor: "#F37002" }}
+                        >
+                          Book Now
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </Link>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+
+      {/*Explore by category section*/}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header */}
+          <div
+            className="text-center mb-16"
+            style={{
+              fontFamily: '"Play","Edu NSW ACT Cursive", cursive',
+            }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Explore by
+              <span
+                className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 ml-3"
+                style={{ color: "#FFBA0A" }}
+              >
+                Categories
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover different types of experiences tailored to your interests
+            </p>
+          </div>
+
+          {/* Categories Carousel */}
+          {categoriesWithSubcategories.length > 0 && (
+            <div className="relative">
+              <div className="overflow-hidden">
+                <div
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{
+                    transform: `translateX(-${categoryActiveSlide * 100}%)`,
+                  }}
+                >
+                  {/* Render only categories that have subcategories */}
+                  {categoriesWithSubcategories.map((category, index) => {
+                    const displaySubcategories = category.subcategories.slice(
+                      0,
+                      2
+                    );
+
+                    return (
+                      <div
+                        key={category._id}
+                        className="w-full flex-shrink-0 px-4"
+                      >
+                        <div className="text-center mb-8">
+                          <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+                            Explore{" "}
+                            <span style={{ color: "#FFBA0A" }}>
+                              {category.name}
+                            </span>{" "}
+                            in Goa
+                          </h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                          {displaySubcategories.map((subcat) => (
+                            <Link
+                              key={subcat._id}
+                              state={{ categoryId: category._id }}
+                              to={`/explore/${category.slug}`}
+                              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 mb-4"
+                            >
+                              <div className="relative h-56 overflow-hidden">
+                                <img
+                                  src={
+                                    subcat.bannerImage &&
+                                    subcat.bannerImage.startsWith("http")
+                                      ? subcat.bannerImage
+                                      : "https://via.placeholder.com/400x300?text=No+Image"
+                                  }
+                                  alt={subcat.name}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src =
+                                      "https://via.placeholder.com/400x300?text=No+Image";
+                                  }}
+                                  loading="lazy"
+                                />
+
+                                {/* <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" /> */}
+                                <div
+                                  className="absolute bottom-4 left-4 right-4 rounded-xl px-4 py-2 z-20"
+                                  style={{
+                                    background: "rgba(255, 255, 255, 0.05)",
+                                    backdropFilter: "blur(5px)",
+                                    WebkitBackdropFilter: "blur(5px)",
+                                    border: "1px solid #F37002",
+                                    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+                                  }}
+                                >
+                                  <h4 className=" text-white text-xl font-bold text-center text-[#F37002]">
+                                    {subcat.name}
+                                  </h4>
+                                </div>
+                              </div>
+                              <div
+                                className="p-6"
+                                style={{ borderBottom: "3px solid #F37002" }}
+                              >
+                                <div className="flex items-center justify-between mb-4">
+                                  <div className="flex items-center gap-2">
+                                    <Clock className="w-4 h-4 text-gray-500" />
+                                    <span className="text-sm text-gray-600">
+                                      {subcat.duration || "Full Day"}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                    <span className="text-sm font-medium text-gray-700">
+                                      {subcategoryStats[subcat._id]?.rating ||
+                                        "4.5"}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <span className="text-2xl font-bold text-gray-900">
+                                      INR {subcat.price}
+                                    </span>
+                                    <span className="text-sm text-gray-600">
+                                      /Person
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-orange-500 font-medium">
+                                    <span>Explore</span>
+                                    <ArrowRight className="w-4 h-4" />
+                                  </div>
+                                </div>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Carousel Navigation Dots */}
+              <div className="flex justify-center mt-8 space-x-2">
+                {categoriesWithSubcategories.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCategoryActiveSlide(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === categoryActiveSlide
+                        ? "bg-orange-500"
+                        : "bg-gray-300"
+                    }`}
+                  />
                 ))}
               </div>
 
-              {/* Show More Button */}
-              {subcategories.length > 6 && (
-                <div className="text-center mt-12">
-                  <button
-                    onClick={() => setShowAllCategories(!showAllCategories)}
-                    className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-3 rounded-full font-bold text-lg hover:from-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
-                  >
-                    {showAllCategories
-                      ? "Show Less"
-                      : `Show All ${subcategories.length} Destinations`}
-                  </button>
-                </div>
-              )}
-            </>
+              {/* Carousel Arrow Navigation */}
+              <button
+                onClick={() =>
+                  setCategoryActiveSlide((prev) =>
+                    prev === 0
+                      ? categoriesWithSubcategories.length - 1
+                      : prev - 1
+                  )
+                }
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors"
+              >
+                <ArrowRight className="w-6 h-6 text-gray-600 rotate-180" />
+              </button>
+
+              <button
+                onClick={() =>
+                  setCategoryActiveSlide((prev) =>
+                    prev === categoriesWithSubcategories.length - 1
+                      ? 0
+                      : prev + 1
+                  )
+                }
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors"
+              >
+                <ArrowRight className="w-6 h-6 text-gray-600" />
+              </button>
+            </div>
           )}
         </div>
       </section>

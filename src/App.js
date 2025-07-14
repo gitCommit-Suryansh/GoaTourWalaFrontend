@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminPanel from './components/AdminPanel';
 import SubcategoryPage from './components/SubcategoryPage'
 import ExistingSubcategories from './components/ExistingSubcategories';
+import ExploreCategory from './components/ExploreCategory';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -35,6 +36,7 @@ function App() {
         <Route path='/adminpanel' element={<AdminPanel/>}/>
         <Route path="/:categorySlug/:subSlug" element={<SubcategoryPage />} />
         <Route path="/editSubcategories" element={<ExistingSubcategories/>}/>
+        <Route path='/explore/:slug' element={<ExploreCategory/>}/>
 
       </Routes>
     </Router>
