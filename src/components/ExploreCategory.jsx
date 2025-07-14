@@ -86,7 +86,7 @@ const ExploreCategory = () => {
             {subcategories.map((category) => (
               <Link
                 key={category._id}
-                to={`/${category.categorySlug}/${category.slug}`}
+                to={`/${slug}/${category.slug}`}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shado   w-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
                 style={{ scale: 0.9 }}
               >

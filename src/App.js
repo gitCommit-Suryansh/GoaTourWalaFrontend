@@ -37,7 +37,6 @@ function App() {
         <Route path="/:categorySlug/:subSlug" element={<SubcategoryPage />} />
         <Route path="/editSubcategories" element={<ExistingSubcategories/>}/>
         <Route path='/explore/:slug' element={<ExploreCategory/>}/>
-
       </Routes>
     </Router>
   );

@@ -7,6 +7,7 @@ import {
   Clock,
   Star,
   Users,
+  ArrowLeft,
   ArrowRight,
   MapPin,
   Phone,
@@ -537,6 +538,18 @@ const Home = () => {
                             </Link>
                           ))}
                         </div>
+                        <div className="text-center mb-8">
+                          <h3 className="text-xs md:text-xs font-bold text-gray-800 mb-4 flex flex-row justify-center items-center">
+                            <Link
+                              to={`/explore/${category.slug}`}
+                              state={{ categoryId: category._id }}
+                              style={{ color: "grey" }}
+                            >
+                              View more
+                            </Link>
+                            <ArrowRight className="w-4 h-4 text-gray-600 rotate-180" />
+                          </h3>
+                        </div>
                       </div>
                     );
                   })}
@@ -569,7 +582,7 @@ const Home = () => {
                 }
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition-colors"
               >
-                <ArrowRight className="w-6 h-6 text-gray-600 rotate-180" />
+                <ArrowLeft className="w-6 h-6 text-gray-600 rotate-180" />
               </button>
 
               <button
