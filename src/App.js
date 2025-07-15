@@ -5,6 +5,8 @@ import AdminPanel from './components/AdminPanel';
 import SubcategoryPage from './components/SubcategoryPage'
 import ExistingSubcategories from './components/ExistingSubcategories';
 import ExploreCategory from './components/ExploreCategory';
+import SeePayments from './components/SeePayments';
+import CreatePackage from './components/CreatePackage'
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -34,8 +36,11 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/adminpanel' element={<AdminPanel/>}/>
-        <Route path="/:categorySlug/:subSlug" element={<SubcategoryPage />} />
+        <Route path='/CreatePackage' element={<CreatePackage/>}/>
+        <Route path='/seePayments' element={<SeePayments/>}/>
         <Route path="/editSubcategories" element={<ExistingSubcategories/>}/>
+
+        <Route path="/:categorySlug/:subSlug" element={<SubcategoryPage />} />
         <Route path='/explore/:slug' element={<ExploreCategory/>}/>
       </Routes>
     </Router>
