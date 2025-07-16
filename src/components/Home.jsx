@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import adventurevideo from "../assets/adventure.mp4";
 import Header from "./Header";
+import Footer from "./Footer"; // 👈 Add this import
+
 
 import {
   Check,
@@ -601,6 +603,9 @@ const Home = () => {
           )}
         </div>
       </section>
+
+      <Footer />
+
 
       {/* EXISTING STYLES */}
       <style>{`
