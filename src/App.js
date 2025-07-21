@@ -7,6 +7,7 @@ import ExistingSubcategories from './components/ExistingSubcategories';
 import ExploreCategory from './components/ExploreCategory';
 import SeePayments from './components/SeePayments';
 import CreatePackage from './components/CreatePackage'
+import PlanTripForm from './components/PlanTripForm'
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -39,6 +40,7 @@ function App() {
         <Route path='/CreatePackage' element={<CreatePackage/>}/>
         <Route path='/seePayments' element={<SeePayments/>}/>
         <Route path="/editSubcategories" element={<ExistingSubcategories/>}/>
+        <Route path='/planYourTrip' element={<PlanTripForm/>}/>
 
         <Route path="/:categorySlug/:subSlug" element={<SubcategoryPage />} />
         <Route path='/explore/:slug' element={<ExploreCategory/>}/>

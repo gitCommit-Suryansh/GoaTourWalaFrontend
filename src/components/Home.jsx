@@ -3,7 +3,6 @@ import adventurevideo from "../assets/adventure.mp4";
 import Header from "./Header";
 import Footer from "./Footer"; // 👈 Add this import
 
-
 import {
   Check,
   Clock,
@@ -13,6 +12,11 @@ import {
   ArrowRight,
   MapPin,
   Phone,
+  Calendar,
+  Map,
+  Compass,
+  Sparkles,
+  ChevronRight,
 } from "lucide-react";
 import { ReactTyped } from "react-typed";
 import planeImg from "../assets/plane.png";
@@ -173,7 +177,7 @@ const Home = () => {
         {/* Main Hero Content */}
         <div className="absolute inset-0 z-20 flex items-center justify-center px-4 text-center">
           <div
-            className="max-w-3xl mx-auto space-y-8 bg-white/5 backdrop-blur-md rounded-3xl shadow-2xl border border-white/10 px-6 py-10 mt-16 md:mt-0 flex flex-col items-center"
+            className="max-w-3xl mx-auto space-y-4 md:space-y-8 bg-white/5 backdrop-blur-md rounded-3xl shadow-2xl border border-white/10 px-4 py-6 md:px-6 md:py-10 mt-16 md:mt-0 flex flex-col items-center"
             style={{
               background: "rgba(255, 255, 255, 0.05)",
               backdropFilter: "blur(5px)",
@@ -182,12 +186,12 @@ const Home = () => {
             }}
           >
             {/* Discount Badge */}
-            <div className="inline-block bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full text-sm font-bold mb-2">
+            <div className="inline-block bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 md:px-6 py-1 md:py-2 rounded-full text-xs md:text-sm font-bold mb-1 md:mb-2">
               Get up to 40% OFF on
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg mb-4">
+            <h1 className="text-2xl md:text-6xl font-extrabold leading-tight drop-shadow-lg mb-2 md:mb-4">
               <span
                 className=""
                 style={{ color: "#FFBA0A", fontWeight: "bolder" }}
@@ -214,22 +218,24 @@ const Home = () => {
             </h1>
 
             {/* Pricing Section */}
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="text-white text-lg md:text-xl">Starting at</span>
-              <div className="flex items-center gap-3">
-                <span className="text-3xl md:text-4xl font-bold text-white">
+            <div className="flex items-center justify-center gap-2 md:gap-4 mb-3 md:mb-6">
+              <span className="text-sm md:text-lg lg:text-xl text-white">
+                Starting at
+              </span>
+              <div className="flex items-center gap-2 md:gap-3">
+                <span className="text-xl md:text-3xl lg:text-4xl font-bold text-white">
                   INR 5,299
                 </span>
-                <span className="text-lg md:text-xl text-gray-300 line-through">
+                <span className="text-sm md:text-lg lg:text-xl text-gray-300 line-through">
                   INR 10,598
                 </span>
               </div>
             </div>
 
             {/* CTA Button */}
-            <div className="mb-6">
+            <div className="mb-3 md:mb-6">
               <button
-                className="bg-[#F37002] text-white font-bold px-7 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300/40 text-lg tracking-wide"
+                className="bg-[#F37002] text-white font-bold px-5 md:px-7 py-2 md:py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300/40 text-sm md:text-lg tracking-wide"
                 style={{ backgroundColor: "#F37002" }}
               >
                 Connect With An Expert
@@ -237,22 +243,22 @@ const Home = () => {
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8">
-              <div className="flex items-center gap-2">
-                <Check className="h-6 w-6 text-green-400" />
-                <span className="text-lg text-white/90 font-medium">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 mt-4 md:mt-8">
+              <div className="flex items-center gap-1 md:gap-2">
+                <Check className="h-4 w-4 md:h-6 md:w-6 text-green-400" />
+                <span className="text-sm md:text-lg text-white/90 font-medium">
                   Only Trusted & Verified Agents
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-6 w-6 text-green-400" />
-                <span className="text-lg text-white/90 font-medium">
+              <div className="flex items-center gap-1 md:gap-2">
+                <Check className="h-4 w-4 md:h-6 md:w-6 text-green-400" />
+                <span className="text-sm md:text-lg text-white/90 font-medium">
                   24/7 Online Support
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-6 w-6 text-green-400" />
-                <span className="text-lg text-white/90 font-medium">
+              <div className="flex items-center gap-1 md:gap-2">
+                <Check className="h-4 w-4 md:h-6 md:w-6 text-green-400" />
+                <span className="text-sm md:text-lg text-white/90 font-medium">
                   100% Trusted Tour Agency
                 </span>
               </div>
@@ -318,7 +324,7 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {displayedCategories.map((category) => (
                   <Link
                     key={category._id}
@@ -326,7 +332,7 @@ const Home = () => {
                     className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
                     style={{ scale: 0.9 }}
                   >
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-40 md:h-48 overflow-hidden">
                       <img
                         src={
                           category.image ||
@@ -337,11 +343,11 @@ const Home = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="p-5">
+                    <div className="p-4 md:p-5">
                       <div className="text-sm text-gray-600 mb-2">
                         {category.duration || "6 days & 5 nights"}
                       </div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                      <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
                         {category.name}
                       </h3>
                       <div className="text-sm text-gray-600 mb-3 flex items-center gap-2">
@@ -364,19 +370,19 @@ const Home = () => {
                       </div>
                       <div className="mb-4">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-lg text-gray-400 line-through">
+                          <span className="text-base md:text-lg text-gray-400 line-through">
                             INR{" "}
                             {category.price +
                               (subcategoryStats[category._id]?.discount ||
                                 1000)}
                           </span>
-                          <span className="text-sm bg-green-100 text-green-600 px-2 py-1 rounded">
+                          <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">
                             SAVE INR{" "}
                             {subcategoryStats[category._id]?.discount || 1000}
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-2xl font-bold text-gray-900">
+                          <span className="text-xl md:text-2xl font-bold text-gray-900">
                             INR {category.price}
                           </span>
                           <span className="text-sm text-gray-600">/Adult</span>
@@ -461,7 +467,7 @@ const Home = () => {
                           </h3>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
                           {displaySubcategories.map((subcat) => (
                             <Link
                               key={subcat._id}
@@ -469,7 +475,7 @@ const Home = () => {
                               to={`/explore/${category.slug}`}
                               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 mb-4"
                             >
-                              <div className="relative h-56 overflow-hidden">
+                              <div className="relative h-44 md:h-56 overflow-hidden">
                                 <img
                                   src={
                                     subcat.bannerImage &&
@@ -498,13 +504,13 @@ const Home = () => {
                                     boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
                                   }}
                                 >
-                                  <h4 className=" text-white text-xl font-bold text-center text-[#F37002]">
+                                  <h4 className=" text-white text-lg md:text-xl font-bold text-center text-[#F37002]">
                                     {subcat.name}
                                   </h4>
                                 </div>
                               </div>
                               <div
-                                className="p-6"
+                                className="p-4 md:p-6"
                                 style={{ borderBottom: "3px solid #F37002" }}
                               >
                                 <div className="flex items-center justify-between mb-4">
@@ -524,7 +530,7 @@ const Home = () => {
                                 </div>
                                 <div className="flex items-center justify-between">
                                   <div>
-                                    <span className="text-2xl font-bold text-gray-900">
+                                    <span className="text-xl md:text-2xl font-bold text-gray-900">
                                       INR {subcat.price}
                                     </span>
                                     <span className="text-sm text-gray-600">
@@ -604,8 +610,133 @@ const Home = () => {
         </div>
       </section>
 
-      <Footer />
+      {/* PLAN YOUR TRIP SECTION */}
+      <section className="py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 relative overflow-hidden">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    {/* Decorative Elements (hidden on mobile) */}
+    <div className="absolute top-10 left-10 opacity-10 hidden sm:block">
+      <Compass className="w-32 h-32 text-orange-400" />
+    </div>
+    <div className="absolute bottom-10 right-10 opacity-10 hidden sm:block">
+      <Map className="w-24 h-24 text-yellow-400" />
+    </div>
 
+    {/* Section Content */}
+    <div className="text-center mb-16">
+      <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full text-sm font-bold mb-6">
+        <Sparkles className="w-4 h-4" />
+        <span>Customize Your Experience</span>
+      </div>
+
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6" style={{ fontFamily: '"Play","Edu NSW ACT Cursive", cursive' }}>
+        Can't Find What You're Looking For?
+        <br />
+        <span style={{ color: "#FFBA0A" }} className="text-3xl md:text-4xl">
+          Let's Plan Your Perfect Trip!
+        </span>
+      </h2>
+
+      <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12">
+        Every traveler is unique, and so should be your journey. Tell us your preferences, 
+        and our expert travel planners will create a personalized itinerary just for you.
+      </p>
+    </div>
+
+    {/* Feature Cards Carousel */}
+    <div className="mb-16">
+      <div className="relative w-full overflow-hidden">
+        <div className="flex flex-col md:flex-row gap-6 items-stretch justify-center transition-all duration-300">
+          {[{
+            icon: <Calendar className="w-8 h-8 text-white" />,
+            title: "Flexible Dates",
+            desc: "Travel on your schedule. We'll help you find the best times to visit based on weather, crowds, and your preferences."
+          }, {
+            icon: <Users className="w-8 h-8 text-white" />,
+            title: "Group Size",
+            desc: "Whether you're traveling solo, as a couple, with family, or in a large group, we'll customize the experience for your party size."
+          }, {
+            icon: <Compass className="w-8 h-8 text-white" />,
+            title: "Custom Activities",
+            desc: "From adventure sports to cultural experiences, food tours to spiritual journeys - we'll include everything that interests you."
+          }].map((card, index) => (
+            <div key={index} className="flex-1 min-w-[280px] md:min-w-0 bg-white rounded-2xl shadow-lg p-6 text-center border-2 border-orange-100 hover:border-orange-300 transition-all duration-300 transform hover:-translate-y-2">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-6" style={{ backgroundColor: "#F37002" }}>
+                {card.icon}
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{card.title}</h3>
+              <p className="text-gray-600">{card.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {/* Main CTA Section */}
+    <div className="text-center">
+      <div className="inline-block bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-orange-200 px-6 py-8 sm:px-8 sm:py-12 max-w-4xl mx-auto" style={{ background: "rgba(255, 255, 255, 0.7)", backdropFilter: "blur(10px)", border: "2px solid #F37002", boxShadow: "0 20px 60px rgba(243, 112, 2, 0.15)" }}>
+        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Ready to Start Planning Your Dream Trip?</h3>
+        <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+          Our travel experts are standing by to help you create an unforgettable Goa experience 
+          tailored specifically to your interests, budget, and timeline.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <Link to="/planyourtrip" className="inline-flex items-center gap-3 text-white font-bold px-8 py-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300/40 text-lg tracking-wide" style={{ backgroundColor: "#F37002" }}>
+            <Map className="w-5 h-5" />
+            <span>Plan Your Custom Trip</span>
+            <ChevronRight className="w-5 h-5" />
+          </Link>
+          <div className="flex items-center gap-3 text-gray-600">
+            <div className="flex items-center gap-1">
+              <Clock className="w-4 h-4" />
+              <span className="text-sm">Free consultation</span>
+            </div>
+            <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+            <div className="flex items-center gap-1">
+              <Check className="w-4 h-4 text-green-500" />
+              <span className="text-sm">No booking fees</span>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 pt-6 border-t border-orange-200">
+          <p className="text-sm text-gray-600">
+            <strong className="text-gray-800">✨ What happens next?</strong>
+            <br />
+            Fill out our simple form → Get matched with a travel expert → Receive your personalized itinerary within 24 hours
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* Trust Indicators */}
+    <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-16">
+      <div className="flex items-center gap-3">
+        <div className="flex -space-x-2">
+          {["A", "S", "R", "+"].map((char, i) => (
+            <div key={i} className={`w-10 h-10 rounded-full border-2 border-white flex items-center justify-center text-white text-sm font-bold ${i === 0 ? "bg-gradient-to-br from-blue-400 to-blue-600" : i === 1 ? "bg-gradient-to-br from-green-400 to-green-600" : i === 2 ? "bg-gradient-to-br from-purple-400 to-purple-600" : "bg-gradient-to-br from-orange-400 to-orange-600"}`}>{char}</div>
+          ))}
+        </div>
+        <div>
+          <div className="font-bold text-gray-900">500+ Happy Travelers</div>
+          <div className="text-sm text-gray-600">Custom trips planned this month</div>
+        </div>
+      </div>
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+          ))}
+        </div>
+        <div>
+          <div className="font-bold text-gray-900">4.9/5 Rating</div>
+          <div className="text-sm text-gray-600">From our custom trip clients</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+      <Footer />
 
       {/* EXISTING STYLES */}
       <style>{`
