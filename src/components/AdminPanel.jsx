@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   ChevronRight,
+  MapPin
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -51,6 +52,15 @@ const AdminPanel = () => {
       color: "bg-purple-500",
       hoverColor: "hover:bg-purple-600",
       stats: "8 Categories",
+    },
+    {
+      path: "/seePlanTrips",
+      title: "View Planned Trips",
+      description: "Manage received customized planned trips details",
+      icon: MapPin, // Changed icon to MapPin for a different look
+      color: "bg-yellow-500", // Changed color to bg-yellow-500 for a different UI color
+      hoverColor: "hover:bg-yellow-600",
+      stats: "20 Planned Trips",
     },
   ];
 
@@ -240,7 +250,7 @@ const AdminPanel = () => {
             <h3 className="text-xl font-semibold text-gray-900 mb-6">
               Admin Functions
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {adminRoutes.map((route, index) => (
                 <div
                   key={index}
