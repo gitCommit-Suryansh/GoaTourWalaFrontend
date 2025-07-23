@@ -9,6 +9,10 @@ import SeePayments from './components/SeePayments';
 import CreatePackage from './components/CreatePackage'
 import PlanTripForm from './components/PlanTripForm'
 import ViewPlanTrips from './components/ViewPlanTrips';
+import TermsandCondition from './components/TermsAndConditions'
+import PrivacyPolicy from './components/PrivacyPolicy'
+import RefundPolicy from './components/RefundPolicy'
+import AboutUs from './components/AboutUs';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -43,6 +47,10 @@ function App() {
         <Route path='/seePlanTrips' element={<ViewPlanTrips/>}/>
         <Route path="/editSubcategories" element={<ExistingSubcategories/>}/>
         <Route path='/planYourTrip' element={<PlanTripForm/>}/>
+        <Route path='/refundPolicy' element={<RefundPolicy />} />
+        <Route path='/termsAndConditions' element={<TermsandCondition />} />
+        <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
+        <Route path='AboutUs' element={<AboutUs/>}/>
 
         <Route path="/:categorySlug/:subSlug" element={<SubcategoryPage />} />
         <Route path='/explore/:slug' element={<ExploreCategory/>}/>
