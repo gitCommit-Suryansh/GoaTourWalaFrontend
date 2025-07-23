@@ -22,7 +22,7 @@ import { ReactTyped } from "react-typed";
 import planeImg from "../assets/plane.png";
 import { Link } from "react-router-dom";
 
-const slideOptions = ["Wildlife", "Heritage", "Spirituality", "Nature"];
+const slideOptions = ["Wildlife", "Heritage", "Religious", "Nature"];
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -657,7 +657,7 @@ const Home = () => {
           }, {
             icon: <Compass className="w-8 h-8 text-white" />,
             title: "Custom Activities",
-            desc: "From adventure sports to cultural experiences, food tours to spiritual journeys - we'll include everything that interests you."
+            desc: "From adventure sports to cultural experiences, food tours to Religious journeys - we'll include everything that interests you."
           }].map((card, index) => (
             <div key={index} className="flex-1 min-w-[280px] md:min-w-0 bg-white rounded-2xl shadow-lg p-6 text-center border-2 border-orange-100 hover:border-orange-300 transition-all duration-300 transform hover:-translate-y-2">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-6" style={{ backgroundColor: "#F37002" }}>
